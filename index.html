@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'></script>
+    <script src='https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js'></script>
 </head>
 
 <body>
@@ -21,29 +22,33 @@
 
     </div>
     <script>
+        $(document).ready(function () {
+            $('.money').mask('000.000.000.000.000,00', {reverse: true});
+        });
+
         // var divElement = document.getElementById('teste')
         // var scriptElement = document.createElement('script')
         // scriptElement.setAttribute('src', 'https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js')
         // divElement.appendChild(scriptElement)
 
-        var script = document.createElement('script');
-        script.src = 'https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js';
-        // script.type = 'text/javascript';
-        document.getElementsByTagName('head')[0].appendChild(script);
+        // var script = document.createElement('script');
+        // script.src = 'https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js';
+        // // script.type = 'text/javascript';
+        // document.getElementsByTagName('head')[0].appendChild(script);
 
-        $(document).ready(function () {
-            $('.money').mask('#.##0,00', { reverse: true });
-        });
+        // $(document).ready(function () {
+        //     $('.money').mask('#.##0,00', { reverse: true });
+        // });
 
-        $(document).ready(function () {
-            var novo = $("<input class='money2' type='text' />");
-            var antigo = $('.money2');
-            antigo.before(novo);
-            novo.append(antigo.children());
-            antigo.remove();
+        // $(document).ready(function () {
+        //     var novo = $("<input class='money2' type='text' />");
+        //     var antigo = $('.money2');
+        //     antigo.before(novo);
+        //     novo.append(antigo.children());
+        //     antigo.remove();
 
-            $('.money2').mask('#.##0,00', { reverse: true });
-        });
+        //     $('.money2').mask('#.##0,00', { reverse: true });
+        // });
 
         //---------------------------------------------------
 

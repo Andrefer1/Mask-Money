@@ -1,9 +1,20 @@
 function mask() {
-    console.log('EEEEEEntroou!1')
+    // console.log('EEEEEEntroou!1')
+
+    $(function ($) {
+        var input = $('.editable-field-input');
+        input.on('keydown', function () {
+            var key = event.keyCode || event.charCode
+
+            if (key == 8 || key == 46) {
+                return number_format(this, event, true)
+            }
+        });
+    });
+
     $(".editable-field-input").keypress(function (event) {
-        console.log('EEEEEEntroou!2')
+        console.log('EEEEEEntroou!')
         number_format(this, event)
-        console.log('EEEEEEntroou!3')
     })
 }
 
@@ -11,23 +22,62 @@ mask()
 
 var lista = []
 
-function number_format(self, event, decimals = 2, decimal = ',', thousands = '.', pre = 'R$ ') {
-    var mask = ''
+function number_format(self, event, backspace = false) {
+
+    console.log(self.value)
+
+    var mask
+    var final_mask
 
     var numbers = criar_lista(event)
     var lista_string = numbers
-    // console.log(numbers.length)
-    // console.log('LISTA - ', lista_string)
-    console.log('NUMBERS - ', numbers)
+
+
+
+    if (backspace == true) {
+        console.log(lista.length)
+        if (lista.length == 0) {
+            return self.value = 'R$ 0,00'
+        }
+        else {
+            lista.pop()
+            mask = add_mask(lista)
+            final_mask = add_final_mask(mask, lista_string, event, true)
+
+            self.value = final_mask
+            return false
+        }
+    }
+
+    if (event.keyCode == 13) {
+        mask = add_mask(numbers)
+        final_mask = add_final_mask(mask, lista_string, event)
+
+        return self.value = final_mask
+    }
+
+    mask = add_mask(numbers)
+    final_mask = add_final_mask(mask, lista_string, event)
+
+    self.value = final_mask
+
+}
+
+function criar_lista(event) {
+    if ("0123456789".indexOf(event.key) != -1) {
+        lista.push(event.key)
+    }
+    return lista
+}
+
+function add_mask(numbers, decimals = 2, decimal = ',', thousands = '.', ) {
+    var mask = ''
 
     numbers = numbers.join('').padStart(decimals + 1, "0")
-    console.log(numbers)
 
     var splitNumbers = numbers.split("").reverse()
 
     splitNumbers.forEach(function (d, i) {
-        // console.log('DDDD', d)
-        // console.log('IIII', i)
         if (i == decimals) {
             mask = decimal + mask
         }
@@ -39,24 +89,20 @@ function number_format(self, event, decimals = 2, decimal = ',', thousands = '.'
         mask = d + mask;
     })
 
-    // console.log(numbers)
-    console.log(mask)
-
-    if (lista_string.length == 1) {
-        self.value = pre + '0,0'
+    return mask
+}
+function add_final_mask(mask, lista_string, event, backspace = false, pre = 'R$ ') {
+    if (lista_string.length == 0) {
+        return pre + '0,0'
     }
     else {
-        mask = mask.split('')
-        mask = mask.slice(0, -1)
-        mask = mask.join('')
+        if (event.keyCode != 13 && backspace == false) {
+            mask = mask.split('')
+            mask = mask.slice(0, -1)
+            mask = mask.join('')
+        }
 
-        self.value = pre + mask
+        console.log(mask)
+        return pre + mask
     }
-}
-
-function criar_lista(event) {
-    if ("0123456789".indexOf(event.key) != -1) {
-        lista.push(event.key)
-    }
-    return lista
 }

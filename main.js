@@ -24,20 +24,15 @@ var lista = []
 
 function number_format(self, event, backspace = false) {
 
-    console.log(self.value)
-
     var mask
     var final_mask
 
     var numbers = criar_lista(event)
     var lista_string = numbers
 
-
-
     if (backspace == true) {
-        console.log(lista.length)
         if (lista.length == 0) {
-            return self.value = 'R$ 0,00'
+            return self.value = '0,00'
         }
         else {
             lista.pop()
@@ -91,9 +86,9 @@ function add_mask(numbers, decimals = 2, decimal = ',', thousands = '.', ) {
 
     return mask
 }
-function add_final_mask(mask, lista_string, event, backspace = false, pre = 'R$ ') {
+function add_final_mask(mask, lista_string, event, backspace = false) {
     if (lista_string.length == 0) {
-        return pre + '0,0'
+        return '0,0'
     }
     else {
         if (event.keyCode != 13 && backspace == false) {
@@ -102,7 +97,6 @@ function add_final_mask(mask, lista_string, event, backspace = false, pre = 'R$ 
             mask = mask.join('')
         }
 
-        console.log(mask)
-        return pre + mask
+        return mask
     }
 }
